@@ -25,21 +25,21 @@ public class MainActivity extends ActionBarActivity {
 
 		final RetrofitService service = restAdapter.create(RetrofitService.class);
 
-//		new Thread(new Runnable() {
-//			@Override
-//			public void run() {
-//				Log.e(TAG, "Before request");
-//				Log.e(TAG, String.valueOf(service.getTrap(1)));
-//				Log.e(TAG, String.valueOf(service.getTraps()));
-//			}
-//		}).start();
-
-		service.getTrap(1, new ProjRetroCallback<Trap>() {
+		new Thread(new Runnable() {
 			@Override
-			public void success(Trap trap, Response response) {
-				Log.e(TAG, "success");
+			public void run() {
+				Log.e(TAG, "Before request");
+				Log.e(TAG, String.valueOf(service.getTrap(1)));
+				Log.e(TAG, String.valueOf(service.getTraps()));
 			}
-		});
+		}).start();
+
+//		service.getTrap(1, new ProjRetroCallback<Trap>() {
+//			@Override
+//			public void success(Trap trap, Response response) {
+//				Log.e(TAG, "success");
+//			}
+//		});
 	}
 
 }
