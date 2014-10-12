@@ -1,6 +1,7 @@
 package com.drg.testretrofit;
 
 import com.google.gson.annotations.SerializedName;
+import java.util.Date;
 
 /**
  * Trap
@@ -10,7 +11,7 @@ public class Trap {
 	@SerializedName("title")
 	private String mTitle;
 
-	@SerializedName("timestamp")
+	@SerializedName("sDate")
 	private Integer mTimestamp;
 
 	public Trap(String title, Integer timestamp) {
@@ -36,6 +37,6 @@ public class Trap {
 
 	@Override
 	public String toString() {
-		return "Title: "+mTitle+" | Timestamp: "+mTimestamp;
+		return "Title: "+mTitle+" | util date: "+new Date(mTimestamp*1000L);
 	}
 }
