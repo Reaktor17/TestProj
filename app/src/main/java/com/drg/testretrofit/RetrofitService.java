@@ -1,7 +1,8 @@
 package com.drg.testretrofit;
 
 
-import retrofit.Callback;
+import com.drg.testretrofit.models.Trap;
+
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
@@ -27,12 +28,17 @@ public interface RetrofitService {
 //	@GET("/traps")
 //	void getTraps(Callback<List<Trap>> callback);
 
-	@POST("/")
-	void addTrap(@Body Trap trap, Callback<String> callback);
+	/* a-sync */
+//	@POST("/")
+//	void addTrap(@Body Trap trap, Callback<String> callback);
 //	@FormUrlEncoded
 //	@POST("/")
 //	void addTrap(@Field("trap") Trap trap, Callback<String> callback);
 
+	/* reactive */
 	@GET("/")
 	Observable<Trap> getTrap(@Query("id") Integer id);
+
+	@POST("/")
+	Observable<Trap> addTrap(@Body Trap trap);
 }

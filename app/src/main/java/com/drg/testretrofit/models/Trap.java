@@ -1,4 +1,4 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.models;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;

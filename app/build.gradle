@@ -24,6 +24,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.+'
 
     compile 'com.netflix.rxjava:rxjava-android:0.20.5'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.retrofit:retrofit:1.7.0'
     compile 'com.squareup:otto:1.3.5'
 }

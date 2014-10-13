@@ -7,12 +7,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import retrofit.RestAdapter;
-import rx.Scheduler;
-import rx.android.observables.AndroidObservable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import com.drg.testretrofit.events.RetrofitErrorEvent;
+import com.drg.testretrofit.events.traps.TrapLoadEvent;
+import com.drg.testretrofit.events.traps.TrapLoadedEvent;
+import com.drg.testretrofit.events.traps.TrapSaveEvent;
+import com.drg.testretrofit.models.Trap;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
+import java.util.Date;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -21,24 +24,34 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 	private TextView mAnswerView;
 	private EditText mUrlView;
-	private RetrofitService mService;
+
+	private Bus mBus;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		mBus = BusProvider.getInstance();
+
 		setContentView(R.layout.ac_main);
 		mAnswerView = (TextView) findViewById(R.id.answer);
 		mUrlView = (EditText) findViewById(R.id.url);
 		findViewById(R.id.go).setOnClickListener(this);
 		findViewById(R.id.add).setOnClickListener(this);
+	}
 
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint("http://10.0.3.2/test")
-//				.setEndpoint("http://requestb.in/16m7phw1")
-//				.setConverter(new TestConverter())
-				.build();
+	@Override
+	protected void onStart() {
+		super.onStart();
 
-		mService = restAdapter.create(RetrofitService.class);
+		mBus.register(this);
+	}
+
+	@Override
+	protected void onStop() {
+		mBus.unregister(this);
+
+		super.onStop();
 	}
 
 	@Override
@@ -54,39 +67,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	}
 
 	private void add() {
-//		if (mUrlView.getText().toString() != null && mUrlView.getText().toString().length() > 0) {
-//			Trap trap = new Trap(mUrlView.getText().toString(), (int) ((new Date().getTime()) / 1000));
-//			mService.addTrap(trap, new Callback<String>() {
-//				@Override
-//				public void success(String response, Response response2) {
-//					Log.e(TAG, "success");
-//					if (response != null) {
-//						Log.e(TAG, response.toString());
-//					}
-//				}
-//
-//				@Override
-//				public void failure(RetrofitError error) {
-//					Log.e(TAG, error.toString());
-//					try {
-//						InputStream in = error.getResponse().getBody().in();
-//						InputStreamReader is = new InputStreamReader(in);
-//						StringBuilder sb = new StringBuilder();
-//						BufferedReader br = new BufferedReader(is);
-//						String read = br.readLine();
-//
-//						while (read != null) {
-//							sb.append(read);
-//							read = br.readLine();
-//						}
-//
-//						Log.e(TAG, "Raw: " + read);
-//					} catch (Exception e) {
-//						e.printStackTrace();
-//					}
-//				}
-//			});
-//		}
+		if (mUrlView.getText().toString() != null && mUrlView.getText().toString().length() > 0) {
+			Trap trap = new Trap(mUrlView.getText().toString(), (int) ((new Date().getTime()) / 1000));
+			mBus.post(new TrapSaveEvent(trap));
+		}
 	}
 
 	private void applyNGo() {
@@ -94,27 +78,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 		Integer id = (mUrlView.getText().toString().length() > 0) ? Integer.parseInt(mUrlView.getText().toString()) : null;
 
-		getTrap(id);
+		if(id != null) {
+			mBus.post(new TrapLoadEvent(id));
+		}
 	}
 
-	private void getTrap(Integer id) {
+	@Subscribe
+	public void trapLoaded(TrapLoadedEvent trapLoadedEvent) {
+		Log.e(TAG, "trapLoaded");
+		mAnswerView.setText(String.valueOf(trapLoadedEvent.getTrap()));
+	}
 
-		mService.getTrap(id)
-				.subscribeOn(Schedulers.io())
-				.observeOn(AndroidSchedulers.mainThread())
-				.subscribe(new Action1<Trap>() {
-					@Override
-					public void call(Trap trap) {
-						if(trap != null) {
-							Log.e(TAG, trap.toString());
-							mAnswerView.setText(trap.toString());
-						}
-					}
-				}, new Action1<Throwable>() {
-					@Override
-					public void call(Throwable throwable) {
-						Log.e(TAG, "getTrap throwable", throwable);
-					}
-				});
+//	@Subscribe
+//	public void trapSaved(TrapSaEvent trapLoadedEvent) {
+//		Log.e(TAG, "trapLoaded");
+//		mAnswerView.setText(String.valueOf(trapLoadedEvent.getTrap()));
+//	}
+
+	@Subscribe
+	public void eGor(RetrofitErrorEvent retrofitErrorEvent) {
+		Log.e(TAG, "eGor");
+		Log.e(TAG, String.valueOf(retrofitErrorEvent));
 	}
 }
