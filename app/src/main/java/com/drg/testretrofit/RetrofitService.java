@@ -37,8 +37,8 @@ public interface RetrofitService {
 
 	/* reactive */
 	@GET("/")
-	Observable<Trap> getTrap(@Query("id") Integer id);
+	Observable<ServerResp<Trap>> getTrap(@Query("id") Integer id);
 
 	@POST("/")
-	Observable<Trap> addTrap(@Body Trap trap);
+	Observable<ServerResp<Trap>> addTrap(@Body Trap trap);
 }
