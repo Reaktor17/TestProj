@@ -1,5 +1,6 @@
 package com.drg.testretrofit.models;
 
+import com.drg.testretrofit.models.base.ItemEmitter;
 import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 

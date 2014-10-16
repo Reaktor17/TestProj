@@ -1,4 +1,4 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.models.base;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -6,9 +6,9 @@ import com.drg.testretrofit.models.Trap;
 /**
  * TrapLoadedEvent
  */
-public class TrapLoadedEvent extends DataGotEvent<Trap> {
+public class TrapLoadedEvent2 extends DataGotEvent<Trap> {
 
-	public TrapLoadedEvent(Trap entity) {
+	public TrapLoadedEvent2(Trap entity) {
 		super(entity);
 	}
 }

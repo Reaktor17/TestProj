@@ -1,4 +1,4 @@
-package com.drg.testretrofit.events;
+package com.drg.testretrofit.events.base;
 
 /**
  * DataGotEvent

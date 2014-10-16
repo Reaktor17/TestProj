@@ -3,8 +3,6 @@ package com.drg.testretrofit.app;
 import android.app.Application;
 import android.os.StrictMode;
 
-import com.drg.testretrofit.BusProvider;
-import com.drg.testretrofit.BusService;
 import com.squareup.otto.Bus;
 
 import timber.log.Timber;

@@ -1,6 +1,6 @@
 package com.drg.testretrofit.app;
 
-import com.drg.testretrofit.models.Egor;
+import com.drg.testretrofit.models.base.Egor;
 
 import retrofit.RetrofitError;
 import rx.functions.Action1;

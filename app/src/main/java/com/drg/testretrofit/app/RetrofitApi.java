@@ -1,7 +1,7 @@
 package com.drg.testretrofit.app;
 
-import com.drg.testretrofit.models.Egor;
-import com.drg.testretrofit.models.ServerResp;
+import com.drg.testretrofit.models.base.Egor;
+import com.drg.testretrofit.models.base.ServerResp;
 import com.google.gson.Gson;
 
 import java.lang.reflect.Type;

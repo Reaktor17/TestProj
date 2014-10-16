@@ -3,14 +3,16 @@ package com.drg.testretrofit.ui.activities;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.drg.testretrofit.BusProvider;
 import com.drg.testretrofit.R;
-import com.drg.testretrofit.events.DataGotEvent;
+import com.drg.testretrofit.app.BusProvider;
+import com.drg.testretrofit.events.base.DataGotEvent;
 import com.drg.testretrofit.events.traps.TrapLoadEventWrapper;
 import com.drg.testretrofit.models.Trap;
+import com.drg.testretrofit.models.base.Egor;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -27,6 +29,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
 		mBus = BusProvider.getInstance();
 
@@ -75,15 +79,23 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 		Integer id = (mUrlView.getText().toString().length() > 0) ? Integer.parseInt(mUrlView.getText().toString()) : null;
 
-		if(id != null) {
-
+		if (id != null) {
+			setSupportProgressBarIndeterminateVisibility(true);
 			mBus.post(new TrapLoadEventWrapper(id));
 		}
 	}
 
 	@Subscribe
 	public void trapLoaded(DataGotEvent<Trap> trapLoadedEvent) {
-		Timber.e("trapLoaded: "+String.valueOf(trapLoadedEvent));
+		setSupportProgressBarIndeterminateVisibility(false);
+		Timber.e("trapLoaded: " + String.valueOf(trapLoadedEvent));
+		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
+	}
+
+	@Subscribe
+	public void trapLoaded2(DataGotEvent<Egor> trapLoadedEvent) {
+		setSupportProgressBarIndeterminateVisibility(false);
+		Timber.e("EGOR LOADED: " + String.valueOf(trapLoadedEvent));
 		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
 	}
 

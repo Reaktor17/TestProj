@@ -1,4 +1,4 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.app;
 
 import com.squareup.otto.Bus;
 

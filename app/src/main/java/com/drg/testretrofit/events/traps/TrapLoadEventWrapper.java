@@ -1,8 +1,7 @@
 package com.drg.testretrofit.events.traps;
 
-import com.drg.testretrofit.events.DestinationEvent;
-import com.drg.testretrofit.events.GetDataEvent;
-import com.drg.testretrofit.models.Trap;
+import com.drg.testretrofit.events.base.DestinationEvent;
+import com.drg.testretrofit.events.base.GetDataEvent;
 
 /**
  * TrapLoadEvent

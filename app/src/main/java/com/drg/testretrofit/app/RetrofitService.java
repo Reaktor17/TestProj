@@ -1,7 +1,7 @@
 package com.drg.testretrofit.app;
 
 
-import com.drg.testretrofit.models.ServerResp;
+import com.drg.testretrofit.models.base.ServerResp;
 import com.drg.testretrofit.models.Trap;
 
 import retrofit.http.Body;

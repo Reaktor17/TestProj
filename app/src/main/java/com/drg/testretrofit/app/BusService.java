@@ -1,12 +1,11 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.app;
 
-import com.drg.testretrofit.app.BaseThrowableAction;
-import com.drg.testretrofit.app.RetrofitService;
-import com.drg.testretrofit.events.DataGotEvent;
-import com.drg.testretrofit.events.GetDataEvent;
+import com.drg.testretrofit.events.TokenExpiredEvent;
+import com.drg.testretrofit.events.base.DataGotEvent;
+import com.drg.testretrofit.events.base.GetDataEvent;
 import com.drg.testretrofit.events.traps.TrapLoadEventWrapper;
-import com.drg.testretrofit.models.Egor;
-import com.drg.testretrofit.models.ItemEmitter;
+import com.drg.testretrofit.models.base.Egor;
+import com.drg.testretrofit.models.base.ItemEmitter;
 import com.drg.testretrofit.models.Trap;
 import com.squareup.otto.Subscribe;
 
@@ -32,7 +31,10 @@ public class BusService {
 	}
 
 	@Subscribe
-	public void onApiError(Egor egor) {
+	public void onTokenExpired(TokenExpiredEvent event) {
+		Timber.e("onTokenExpired: " + String.valueOf(event));
+
+//			BusProvider.getInstance().post();
 
 	}
 
@@ -79,7 +81,12 @@ public class BusService {
 			protected void onApiError(Egor egor) {
 				super.onApiError(egor);
 
-				BusProvider.getInstance().post(egor);
+				boolean tokenExpired = false;
+				if(tokenExpired) {
+					BusProvider.getInstance().post(new TokenExpiredEvent());
+				} else {
+					BusProvider.getInstance().post(egor);
+				}
 			}
 
 			@Override
