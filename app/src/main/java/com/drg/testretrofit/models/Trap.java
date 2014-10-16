@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Trap
  */
-public class Trap {
+public class Trap implements ItemEmitter<Trap> {
 
 	@SerializedName("title")
 	private String mTitle;
@@ -38,5 +38,10 @@ public class Trap {
 	@Override
 	public String toString() {
 		return "Title: "+mTitle+" | util date: "+new Date(mTimestamp*1000L);
+	}
+
+	@Override
+	public Trap getEmitItem() {
+		return this;
 	}
 }

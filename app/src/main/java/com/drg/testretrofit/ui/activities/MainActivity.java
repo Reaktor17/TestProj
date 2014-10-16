@@ -1,21 +1,20 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.drg.testretrofit.events.RetrofitErrorEvent;
-import com.drg.testretrofit.events.traps.TrapLoadEvent;
-import com.drg.testretrofit.events.traps.TrapLoadedEvent;
-import com.drg.testretrofit.events.traps.TrapSaveEvent;
+import com.drg.testretrofit.BusProvider;
+import com.drg.testretrofit.R;
+import com.drg.testretrofit.events.DataGotEvent;
+import com.drg.testretrofit.events.traps.TrapLoadEventWrapper;
 import com.drg.testretrofit.models.Trap;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
-import java.util.Date;
+import timber.log.Timber;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
@@ -67,10 +66,10 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	}
 
 	private void add() {
-		if (mUrlView.getText().toString() != null && mUrlView.getText().toString().length() > 0) {
-			Trap trap = new Trap(mUrlView.getText().toString(), (int) ((new Date().getTime()) / 1000));
-			mBus.post(new TrapSaveEvent(trap));
-		}
+//		if (mUrlView.getText().toString() != null && mUrlView.getText().toString().length() > 0) {
+//			Trap trap = new Trap(mUrlView.getText().toString(), (int) ((new Date().getTime()) / 1000));
+//			mBus.post(new TrapSaveEvent(trap));
+//		}
 	}
 
 	private void applyNGo() {
@@ -79,25 +78,26 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		Integer id = (mUrlView.getText().toString().length() > 0) ? Integer.parseInt(mUrlView.getText().toString()) : null;
 
 		if(id != null) {
-			mBus.post(new TrapLoadEvent(id));
+
+			mBus.post(new TrapLoadEventWrapper(id));
+//			mBus.post(new TrapLoadEvent(id));
 		}
 	}
 
 	@Subscribe
-	public void trapLoaded(TrapLoadedEvent trapLoadedEvent) {
-		Log.e(TAG, "trapLoaded");
-		mAnswerView.setText(String.valueOf(trapLoadedEvent.getTrap()));
+	public void trapLoaded(DataGotEvent<Trap> trapLoadedEvent) {
+		Timber.e("trapLoaded: "+String.valueOf(trapLoadedEvent));
+		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
 	}
-
 //	@Subscribe
-//	public void trapSaved(TrapSaEvent trapLoadedEvent) {
-//		Log.e(TAG, "trapLoaded");
-//		mAnswerView.setText(String.valueOf(trapLoadedEvent.getTrap()));
+//	public void trapLoaded(TrapLoadedEvent trapLoadedEvent) {
+//		Timber.e("trapLoaded: "+String.valueOf(trapLoadedEvent));
+//		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
 //	}
 
-	@Subscribe
-	public void eGor(RetrofitErrorEvent retrofitErrorEvent) {
-		Log.e(TAG, "eGor");
-		Log.e(TAG, String.valueOf(retrofitErrorEvent));
-	}
+//	@Subscribe
+//	public void eGor(RetrofitErrorEvent retrofitErrorEvent) {
+//		Log.e(TAG, "eGor");
+//		Log.e(TAG, String.valueOf(retrofitErrorEvent));
+//	}
 }

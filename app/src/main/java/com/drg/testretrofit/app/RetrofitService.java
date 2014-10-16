@@ -1,6 +1,7 @@
-package com.drg.testretrofit;
+package com.drg.testretrofit.app;
 
 
+import com.drg.testretrofit.models.ServerResp;
 import com.drg.testretrofit.models.Trap;
 
 import retrofit.http.Body;
@@ -37,8 +38,8 @@ public interface RetrofitService {
 
 	/* reactive */
 	@GET("/")
-	Observable<Trap> getTrap(@Query("id") Integer id);
+	Observable<ServerResp<Trap>> getTrap(@Query("id") Integer id);
 
 	@POST("/")
-	Observable<Trap> addTrap(@Body Trap trap);
+	Observable<ServerResp<Trap>> addTrap(@Body Trap trap);
 }
