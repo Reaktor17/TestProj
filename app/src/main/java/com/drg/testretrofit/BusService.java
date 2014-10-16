@@ -4,7 +4,6 @@ import com.drg.testretrofit.app.BaseThrowableAction;
 import com.drg.testretrofit.app.RetrofitService;
 import com.drg.testretrofit.events.DataGotEvent;
 import com.drg.testretrofit.events.GetDataEvent;
-import com.drg.testretrofit.events.RetrofitErrorEvent;
 import com.drg.testretrofit.events.traps.TrapLoadEventWrapper;
 import com.drg.testretrofit.models.Egor;
 import com.drg.testretrofit.models.ItemEmitter;

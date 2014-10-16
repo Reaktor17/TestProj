@@ -19,8 +19,6 @@ import timber.log.Timber;
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
-	private static final String TAG = MainActivity.class.getSimpleName();
-
 	private TextView mAnswerView;
 	private EditText mUrlView;
 
@@ -80,7 +78,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		if(id != null) {
 
 			mBus.post(new TrapLoadEventWrapper(id));
-//			mBus.post(new TrapLoadEvent(id));
 		}
 	}
 
@@ -89,15 +86,5 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		Timber.e("trapLoaded: "+String.valueOf(trapLoadedEvent));
 		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
 	}
-//	@Subscribe
-//	public void trapLoaded(TrapLoadedEvent trapLoadedEvent) {
-//		Timber.e("trapLoaded: "+String.valueOf(trapLoadedEvent));
-//		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
-//	}
 
-//	@Subscribe
-//	public void eGor(RetrofitErrorEvent retrofitErrorEvent) {
-//		Log.e(TAG, "eGor");
-//		Log.e(TAG, String.valueOf(retrofitErrorEvent));
-//	}
 }
