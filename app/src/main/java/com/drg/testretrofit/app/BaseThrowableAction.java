@@ -19,31 +19,31 @@ public class BaseThrowableAction implements Action1<Throwable> {
 				if (throwable.getCause() instanceof RetrofitApi.ApiException) {
 					Timber.e("API");
 					onApiError(((RetrofitApi.ApiException) throwable.getCause()).getEgor());
-				}
-
-			} else {
-
-				onRetrofitError((RetrofitError) throwable);
-
-				switch (((RetrofitError) throwable).getKind()) {
-					case CONVERSION:
-						Timber.e("CONVERSION");
-						onConversionError((RetrofitError) throwable);
-						break;
-					case HTTP:
-						Timber.e("HTTP");
-						onHttpError((RetrofitError) throwable);
-						break;
-					case NETWORK:
-						Timber.e("NETWORK");
-						onNetworkError((RetrofitError) throwable);
-						break;
-					case UNEXPECTED:
-						Timber.e("UNEXPECTED");
-						onUnexpectedError((RetrofitError) throwable);
-						break;
+					return;
 				}
 			}
+
+			onRetrofitError((RetrofitError) throwable);
+
+			switch (((RetrofitError) throwable).getKind()) {
+				case CONVERSION:
+					Timber.e("CONVERSION");
+					onConversionError((RetrofitError) throwable);
+					break;
+				case HTTP:
+					Timber.e("HTTP");
+					onHttpError((RetrofitError) throwable);
+					break;
+				case NETWORK:
+					Timber.e("NETWORK");
+					onNetworkError((RetrofitError) throwable);
+					break;
+				case UNEXPECTED:
+					Timber.e("UNEXPECTED");
+					onUnexpectedError((RetrofitError) throwable);
+					break;
+			}
+
 		} else {
 			onSmthElseError(throwable);
 		}

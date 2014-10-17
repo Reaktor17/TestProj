@@ -9,10 +9,8 @@ import android.widget.TextView;
 
 import com.drg.testretrofit.R;
 import com.drg.testretrofit.app.BusProvider;
-import com.drg.testretrofit.events.base.DataGotEvent;
 import com.drg.testretrofit.events.traps.TrapLoadEventWrapper;
-import com.drg.testretrofit.models.Trap;
-import com.drg.testretrofit.models.base.Egor;
+import com.drg.testretrofit.events.traps.TrapsLoadEventWrapper;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -22,7 +20,7 @@ import timber.log.Timber;
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
 	private TextView mAnswerView;
-	private EditText mUrlView;
+	private EditText mEntityIdView;
 
 	private Bus mBus;
 
@@ -36,9 +34,9 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 		setContentView(R.layout.ac_main);
 		mAnswerView = (TextView) findViewById(R.id.answer);
-		mUrlView = (EditText) findViewById(R.id.url);
-		findViewById(R.id.go).setOnClickListener(this);
-		findViewById(R.id.add).setOnClickListener(this);
+		mEntityIdView = (EditText) findViewById(R.id.entityId);
+		findViewById(R.id.findOne).setOnClickListener(this);
+		findViewById(R.id.findMany).setOnClickListener(this);
 	}
 
 	@Override
@@ -58,26 +56,19 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 	@Override
 	public void onClick(View view) {
 		switch (view.getId()) {
-			case R.id.go:
-				applyNGo();
+			case R.id.findOne:
+				findOne();
 				break;
-			case R.id.add:
-				add();
+			case R.id.findMany:
+				findMany();
 				break;
 		}
 	}
 
-	private void add() {
-//		if (mUrlView.getText().toString() != null && mUrlView.getText().toString().length() > 0) {
-//			Trap trap = new Trap(mUrlView.getText().toString(), (int) ((new Date().getTime()) / 1000));
-//			mBus.post(new TrapSaveEvent(trap));
-//		}
-	}
-
-	private void applyNGo() {
+	private void findOne() {
 		mAnswerView.setText("");
 
-		Integer id = (mUrlView.getText().toString().length() > 0) ? Integer.parseInt(mUrlView.getText().toString()) : null;
+		Integer id = (mEntityIdView.getText().toString().length() > 0) ? Integer.parseInt(mEntityIdView.getText().toString()) : null;
 
 		if (id != null) {
 			setSupportProgressBarIndeterminateVisibility(true);
@@ -85,18 +76,43 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		}
 	}
 
-	@Subscribe
-	public void trapLoaded(DataGotEvent<Trap> trapLoadedEvent) {
-		setSupportProgressBarIndeterminateVisibility(false);
-		Timber.e("trapLoaded: " + String.valueOf(trapLoadedEvent));
-		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
+	private void findMany() {
+		setSupportProgressBarIndeterminateVisibility(true);
+		mBus.post(new TrapsLoadEventWrapper.TrapsLoadEvent());
 	}
 
 	@Subscribe
-	public void trapLoaded2(DataGotEvent<Egor> trapLoadedEvent) {
+	public void trapLoaded(TrapLoadEventWrapper.TrapLoadedEvent event) {
 		setSupportProgressBarIndeterminateVisibility(false);
-		Timber.e("EGOR LOADED: " + String.valueOf(trapLoadedEvent));
-		mAnswerView.setText(String.valueOf(trapLoadedEvent.getEntity()));
+		Timber.e("trapLoaded: " + String.valueOf(event));
+		mAnswerView.setText(String.valueOf(event.getEntity()));
+	}
+
+	@Subscribe
+	public void trapFailLoad(TrapLoadEventWrapper.TrapErrorLoadedEvent event) {
+		setSupportProgressBarIndeterminateVisibility(false);
+		if (event.getEgor() != null) {
+			Timber.e("trapFailLoad - api error: " + String.valueOf(event));
+		} else {
+			Timber.e("trapFailLoad - HZ error: " + String.valueOf(event));
+		}
+	}
+
+	@Subscribe
+	public void trapsLoaded(TrapsLoadEventWrapper.TrapsLoadedEvent event) {
+		setSupportProgressBarIndeterminateVisibility(false);
+		Timber.e("trapsLoaded: " + String.valueOf(event));
+		mAnswerView.setText(String.valueOf(event.getEntity()));
+	}
+
+	@Subscribe
+	public void trapsFailLoad(TrapsLoadEventWrapper.TrapsErrorLoadedEvent event) {
+		setSupportProgressBarIndeterminateVisibility(false);
+		if (event.getEgor() != null) {
+			Timber.e("trapsFailLoad - api error: " + String.valueOf(event));
+		} else {
+			Timber.e("trapsFailLoad - HZ error: " + String.valueOf(event));
+		}
 	}
 
 }

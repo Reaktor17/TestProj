@@ -1,8 +1,11 @@
 package com.drg.testretrofit.app;
 
 
+import com.drg.testretrofit.models.ObtainTokenModel;
 import com.drg.testretrofit.models.base.ServerResp;
 import com.drg.testretrofit.models.Trap;
+
+import java.util.List;
 
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -40,6 +43,12 @@ public interface RetrofitService {
 	@GET("/")
 	Observable<ServerResp<Trap>> getTrap(@Query("id") Integer id);
 
+	@GET("/")
+	Observable<ServerResp<List<Trap>>> getTraps();
+
 	@POST("/")
 	Observable<ServerResp<Trap>> addTrap(@Body Trap trap);
+
+	@POST("/")
+	Observable<ServerResp<String>> obtainToken(@Body ObtainTokenModel obtainTokenModel);
 }

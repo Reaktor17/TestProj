@@ -9,27 +9,34 @@
 			  android:paddingTop="@dimen/activity_vertical_margin"
 			  tools:context=".MainActivity">
 
-	<EditText
-		android:id="@+id/url"
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:inputType="textUri"/>
+		android:gravity="center_vertical">
+
+		<Button
+			android:id="@+id/findOne"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:minWidth="120dp"
+			android:text="Find One"/>
+
+		<EditText
+			android:id="@+id/entityId"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:inputType="textUri"/>
+
+	</LinearLayout>
 
 	<Button
-		android:id="@+id/go"
-		android:layout_width="wrap_content"
+		android:id="@+id/findMany"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="10dp"
 		android:minWidth="120dp"
-		android:text="GO"/>
-
-	<Button
-		android:id="@+id/add"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="10dp"
-		android:minWidth="120dp"
-		android:text="Add"/>
+		android:text="Find Many"/>
 
 	<TextView
 		android:id="@+id/answer"

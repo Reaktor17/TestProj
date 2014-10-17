@@ -1,10 +1,13 @@
 package com.drg.testretrofit.events.traps;
 
+import com.drg.testretrofit.events.base.DataErrorEvent;
+import com.drg.testretrofit.events.base.DataGotEvent;
 import com.drg.testretrofit.events.base.DestinationEvent;
 import com.drg.testretrofit.events.base.GetDataEvent;
+import com.drg.testretrofit.models.Trap;
 
 /**
- * TrapLoadEvent
+ * TrapLoadEventWrapper
  */
 public class TrapLoadEventWrapper extends GetDataEvent {
 
@@ -19,7 +22,11 @@ public class TrapLoadEventWrapper extends GetDataEvent {
 		return mEvent;
 	}
 
+	/**
+	 * TrapLoadEvent
+	 */
 	public static class TrapLoadEvent implements DestinationEvent {
+
 		private Integer mId;
 
 		public TrapLoadEvent(Integer id) {
@@ -29,5 +36,23 @@ public class TrapLoadEventWrapper extends GetDataEvent {
 		public Integer getId() {
 			return mId;
 		}
+
+		@Override
+		public DataGotEvent<Trap> getLoadedEvent() {
+			return new TrapLoadedEvent();
+		}
+
+		@Override
+		public DataErrorEvent getErrorEvent() {
+			return new TrapErrorLoadedEvent();
+		}
+	}
+
+	public static class TrapLoadedEvent extends DataGotEvent<Trap> {
+
+	}
+
+	public static class TrapErrorLoadedEvent extends DataErrorEvent {
+
 	}
 }
