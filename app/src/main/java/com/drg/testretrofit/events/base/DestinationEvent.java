@@ -3,9 +3,11 @@ package com.drg.testretrofit.events.base;
 /**
  * DestinationEvent
  */
-public interface DestinationEvent {
+public interface DestinationEvent<T> {
 
-	DataGotEvent getLoadedEvent();
+	DataGotEvent<T> getLoadedEvent();
 
 	DataErrorEvent getErrorEvent();
+
+	String getUniqueKey();
 }

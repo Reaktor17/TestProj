@@ -1,6 +1,7 @@
 package com.drg.testretrofit.app;
 
 import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 /**
  * BusProvider
@@ -13,7 +14,7 @@ public class BusProvider {
 
 	public synchronized static Bus getInstance() {
 		if(sBus == null) {
-			sBus = new Bus();
+			sBus = new Bus(ThreadEnforcer.ANY);
 		}
 		return sBus;
 	}

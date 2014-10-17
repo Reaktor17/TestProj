@@ -25,7 +25,7 @@ public class TrapLoadEventWrapper extends GetDataEvent {
 	/**
 	 * TrapLoadEvent
 	 */
-	public static class TrapLoadEvent implements DestinationEvent {
+	public static class TrapLoadEvent implements DestinationEvent<Trap> {
 
 		private Integer mId;
 
@@ -45,6 +45,11 @@ public class TrapLoadEventWrapper extends GetDataEvent {
 		@Override
 		public DataErrorEvent getErrorEvent() {
 			return new TrapErrorLoadedEvent();
+		}
+
+		@Override
+		public String getUniqueKey() {
+			return String.valueOf(mId);
 		}
 	}
 

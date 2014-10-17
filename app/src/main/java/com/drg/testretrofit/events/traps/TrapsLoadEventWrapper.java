@@ -40,6 +40,11 @@ public class TrapsLoadEventWrapper extends GetDataEvent {
 		public DataErrorEvent getErrorEvent() {
 			return new TrapsErrorLoadedEvent();
 		}
+
+		@Override
+		public String getUniqueKey() {
+			return TrapsLoadEvent.class.getSimpleName();
+		}
 	}
 
 	/**

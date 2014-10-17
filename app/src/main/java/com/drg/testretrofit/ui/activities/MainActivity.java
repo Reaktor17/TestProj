@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 	private void findMany() {
 		setSupportProgressBarIndeterminateVisibility(true);
-		mBus.post(new TrapsLoadEventWrapper.TrapsLoadEvent());
+		mBus.post(new TrapsLoadEventWrapper());
 	}
 
 	@Subscribe
